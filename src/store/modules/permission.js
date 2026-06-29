@@ -61,6 +61,7 @@ function filterAsyncRouter(asyncRouterMap, lastRouter = false, type = false) {
     if (type && route.children) {
       route.children = filterChildren(route.children)
     }
+    route.component = resolveLegacyEeoRoute(route)
     if (route.component) {
       // Layout ParentView 组件特殊处理
       if (route.component === 'Layout') {
@@ -81,6 +82,18 @@ function filterAsyncRouter(asyncRouterMap, lastRouter = false, type = false) {
     }
     return true
   })
+}
+
+function resolveLegacyEeoRoute(route) {
+  if (route.component === 'eeo/placeholder/index' && isTeacherRoute(route)) {
+    return 'course/teacher/index'
+  }
+  return route.component
+}
+
+function isTeacherRoute(route) {
+  const path = route.path || ''
+  return path === 'teacher' || path === 'course/teacher' || path.endsWith('/teacher')
 }
 
 function filterChildren(childrenMap, lastRouter = false) {
