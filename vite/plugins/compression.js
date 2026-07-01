@@ -1,4 +1,4 @@
-import compression from 'vite-plugin-compression'
+import compression from 'vite-plugin-compression2'
 
 export default function createCompression(env) {
   const { VITE_BUILD_COMPRESS } = env
@@ -6,20 +6,18 @@ export default function createCompression(env) {
   if (VITE_BUILD_COMPRESS) {
     const compressList = VITE_BUILD_COMPRESS.split(',')
     if (compressList.includes('gzip')) {
-      // http://doc.ruoyi.vip/ruoyi-vue/other/faq.html#使用gzip解压缩静态文件
       plugin.push(
         compression({
-          ext: '.gz',
-          deleteOriginFile: false
+          algorithm: 'gzip',
+          exclude: [/\.(br)$/i, /\.(gz)$/i]
         })
       )
     }
     if (compressList.includes('brotli')) {
       plugin.push(
         compression({
-          ext: '.br',
           algorithm: 'brotliCompress',
-          deleteOriginFile: false
+          exclude: [/\.(br)$/i, /\.(gz)$/i]
         })
       )
     }

@@ -6,7 +6,8 @@
   </div>
 </template>
 
-<script setup name="EeoPlaceholder">
+<script setup>
+defineOptions({ name: 'EeoPlaceholder' })
 const route = useRoute()
 const router = useRouter()
 

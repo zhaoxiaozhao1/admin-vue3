@@ -79,7 +79,7 @@
       <el-table-column label="姓名" min-width="150" prop="studentName" fixed="left">
         <template #default="scope">
           <div class="student-name">
-            <span>{{ scope.row.studentName }}</span>
+            <el-link type="primary" :underline="false" @click="openStudentDetail(scope.row)">{{ scope.row.studentName }}</el-link>
             <el-tag v-if="scope.row.displayStatus === '1'" type="info" size="small">隐藏</el-tag>
           </div>
         </template>
@@ -323,7 +323,8 @@
   </div>
 </template>
 
-<script setup name="Student">
+<script setup>
+defineOptions({ name: 'Student' })
 import ExcelImportDialog from '@/components/ExcelImportDialog/index.vue'
 import {
   listStudent,
@@ -341,6 +342,8 @@ import {
 } from '@/api/course/student'
 
 const { proxy } = getCurrentInstance()
+const router = useRouter()
+const route = useRoute()
 
 const studentList = ref([])
 const labelOptions = ref([])
@@ -469,6 +472,23 @@ function handleUpdate(row) {
     activeTab.value = 'single'
     open.value = true
   })
+}
+
+function openEditFromQuery() {
+  const studentId = route.query.editStudentId
+  if (!studentId) {
+    return
+  }
+  handleUpdate({ studentId })
+  router.replace({ path: '/course/student' })
+}
+
+function openStudentDetail(row) {
+  const route = router.resolve({
+    path: '/singlePage/StudentManagement/Details',
+    query: { studentId: row.studentId }
+  })
+  window.open(route.href, '_blank')
 }
 
 function submitDialog() {
@@ -609,6 +629,7 @@ function formatPhone(row) {
 
 getLabels()
 getList()
+openEditFromQuery()
 </script>
 
 <style scoped>

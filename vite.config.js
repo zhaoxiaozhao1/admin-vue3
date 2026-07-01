@@ -40,11 +40,25 @@ export default defineConfig(({ mode, command }) => {
         }
       }
     },
+    optimizeDeps: {
+      include: [
+        'vue',
+        'vue-router',
+        'pinia',
+        'axios',
+        'js-cookie',
+        '@vueuse/core',
+        'nprogress',
+        '@vue/shared',
+        'element-plus/es/locale/lang/zh-cn'
+      ]
+    },
     // vite 相关配置
     server: {
-      port: 81,
+      port: 5173,
+      strictPort: true,
       host: true,
-      open: true,
+      open: false,
       proxy: {
         // https://cn.vitejs.dev/config/#server-proxy
         '/dev-api': {

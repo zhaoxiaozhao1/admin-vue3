@@ -24,7 +24,8 @@
     </span>
   </el-col>
 </template>
-<script setup name="DraggableItem">
+<script setup>
+defineOptions({ name: 'DraggableItem' })
 import draggable from "vuedraggable/dist/vuedraggable.common"
 import render from '@/utils/generator/render'
 

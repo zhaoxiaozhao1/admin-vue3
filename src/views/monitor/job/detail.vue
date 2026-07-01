@@ -184,7 +184,8 @@
   </el-dialog>
 </template>
 
-<script setup name="JobDetail">
+<script setup>
+defineOptions({ name: 'JobDetail' })
 const props = defineProps({
   visible: { type: Boolean, default: false },
   row: { type: Object, default: () => ({}) },

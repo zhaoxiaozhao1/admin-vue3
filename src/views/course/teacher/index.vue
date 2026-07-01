@@ -430,7 +430,8 @@
   </div>
 </template>
 
-<script setup name="Teacher">
+<script setup>
+defineOptions({ name: 'Teacher' })
 import ExcelImportDialog from '@/components/ExcelImportDialog/index.vue'
 import { Document } from '@element-plus/icons-vue'
 import {

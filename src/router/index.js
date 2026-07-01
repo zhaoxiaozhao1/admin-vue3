@@ -89,6 +89,51 @@ export const constantRoutes = [
         meta: { title: '个人中心', icon: 'user' }
       }
     ]
+  },
+  {
+    path: '/fullPage/teaching/course',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: 'detail/:classId/:tab?',
+        component: () => import('@/views/course/class/detail.vue'),
+        name: 'CourseClassDetail',
+        meta: { title: '班级详情', activeMenu: '/course/class', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/fullPage/teaching',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: 'lesson',
+        component: () => import('@/views/course/lesson/index.vue'),
+        name: 'TeachingLesson',
+        meta: { title: '课堂管理', activeMenu: '/course/lesson', noCache: true }
+      },
+      {
+        path: 'openLesson/:action/:lessonId(\\d+)',
+        component: () => import('@/views/course/publicCourse/detail.vue'),
+        name: 'PublicCourseAction',
+        meta: { title: '公开课数据', activeMenu: '/course/publicCourse', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/singlePage/StudentManagement',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: 'Details',
+        component: () => import('@/views/course/student/detail.vue'),
+        name: 'StudentManagementDetails',
+        meta: { title: '学生详情', activeMenu: '/course/student', noCache: true }
+      }
+    ]
   }
 ]
 

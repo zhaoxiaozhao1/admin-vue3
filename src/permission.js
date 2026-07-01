@@ -41,8 +41,10 @@ router.beforeEach(async (to, from) => {
     if (useUserStore().roles.length === 0) {
       isRelogin.show = true
       try {
-        // 拉取user_info信息
-        await useUserStore().getInfo()
+        await Promise.all([
+          useUserStore().getInfo(),
+          usePermissionStore().fetchRouters()
+        ])
         isRelogin.show = false
         // 根据roles权限生成可访问的路由
         const accessRoutes = await usePermissionStore().generateRoutes()

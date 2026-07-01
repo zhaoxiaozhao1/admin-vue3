@@ -64,7 +64,8 @@
   </div>
 </template>
 
-<script setup name="Cache">
+<script setup>
+defineOptions({ name: 'Cache' })
 import { getCache } from '@/api/monitor/cache'
 import * as echarts from 'echarts'
 

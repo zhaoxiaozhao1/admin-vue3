@@ -5,8 +5,14 @@ import Layout from '@/layout/index'
 import ParentView from '@/components/ParentView'
 import InnerLink from '@/layout/components/InnerLink'
 
-// 匹配views里面所有的.vue文件
 const modules = import.meta.glob('./../../views/**/*.vue')
+
+const viewMap = Object.fromEntries(
+  Object.entries(modules).map(([path, loader]) => [
+    path.split('views/')[1].replace(/\.vue$/, ''),
+    () => loader()
+  ])
+)
 
 const usePermissionStore = defineStore(
   'permission',
@@ -16,7 +22,8 @@ const usePermissionStore = defineStore(
       addRoutes: [],
       defaultRoutes: [],
       topbarRouters: [],
-      sidebarRouters: []
+      sidebarRouters: [],
+      routersPromise: null
     }),
     actions: {
       setRoutes(routes) {
@@ -32,24 +39,28 @@ const usePermissionStore = defineStore(
       setSidebarRouters(routes) {
         this.sidebarRouters = routes
       },
-      generateRoutes(roles) {
-        return new Promise(resolve => {
-          // 向后端请求路由数据
-          getRouters().then(res => {
-            const sdata = JSON.parse(JSON.stringify(res.data))
-            const rdata = JSON.parse(JSON.stringify(res.data))
-            const defaultData = JSON.parse(JSON.stringify(res.data))
-            const sidebarRoutes = filterAsyncRouter(sdata)
-            const rewriteRoutes = filterAsyncRouter(rdata, false, true)
-            const defaultRoutes = filterAsyncRouter(defaultData)
-            const asyncRoutes = filterDynamicRoutes(dynamicRoutes)
-            asyncRoutes.forEach(route => { router.addRoute(route) })
-            this.setRoutes(rewriteRoutes)
-            this.setSidebarRouters(constantRoutes.concat(sidebarRoutes))
-            this.setDefaultRoutes(sidebarRoutes)
-            this.setTopbarRoutes(defaultRoutes)
-            resolve(rewriteRoutes)
-          })
+      resetRoutersPromise() {
+        this.routersPromise = null
+      },
+      fetchRouters() {
+        if (!this.routersPromise) {
+          this.routersPromise = getRouters()
+        }
+        return this.routersPromise
+      },
+      generateRoutes() {
+        return this.fetchRouters().then(res => {
+          const sidebarData = JSON.parse(JSON.stringify(res.data))
+          const rewriteData = JSON.parse(JSON.stringify(res.data))
+          const sidebarRoutes = filterAsyncRouter(sidebarData)
+          const rewriteRoutes = filterAsyncRouter(rewriteData, false, true)
+          const asyncRoutes = filterDynamicRoutes(dynamicRoutes)
+          asyncRoutes.forEach(route => { router.addRoute(route) })
+          this.setRoutes(rewriteRoutes)
+          this.setSidebarRouters(constantRoutes.concat(sidebarRoutes))
+          this.setDefaultRoutes(sidebarRoutes)
+          this.setTopbarRoutes(sidebarRoutes)
+          return rewriteRoutes
         })
       }
     }
@@ -126,15 +137,6 @@ export function filterDynamicRoutes(routes) {
   return res
 }
 
-export const loadView = (view) => {
-  let res
-  for (const path in modules) {
-    const dir = path.split('views/')[1].split('.vue')[0]
-    if (dir === view) {
-      res = () => modules[path]()
-    }
-  }
-  return res
-}
+export const loadView = (view) => viewMap[view]
 
 export default usePermissionStore

@@ -124,7 +124,8 @@
    </div>
 </template>
 
-<script setup name="Logininfor">
+<script setup>
+defineOptions({ name: 'Logininfor' })
 import { list, delLogininfor, cleanLogininfor, unlockLogininfor } from "@/api/monitor/logininfor"
 
 const { proxy } = getCurrentInstance()

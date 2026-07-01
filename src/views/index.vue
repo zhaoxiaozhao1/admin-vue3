@@ -1129,7 +1129,8 @@
   </div>
 </template>
 
-<script setup name="Index">
+<script setup>
+defineOptions({ name: 'Index' })
 const version = ref('3.9.2')
 
 function goTarget(url) {

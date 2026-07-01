@@ -6,6 +6,7 @@ import { getToken, setToken, removeToken } from '@/utils/auth'
 import { isHttp, isEmpty } from "@/utils/validate"
 import useLockStore from '@/store/modules/lock'
 import defAva from '@/assets/images/profile.jpg'
+import usePermissionStore from '@/store/modules/permission'
 
 const useUserStore = defineStore(
   'user',
@@ -82,6 +83,7 @@ const useUserStore = defineStore(
             this.token = ''
             this.roles = []
             this.permissions = []
+            usePermissionStore().resetRoutersPromise()
             removeToken()
             resolve()
           }).catch(error => {

@@ -184,7 +184,8 @@
   </div>
 </template>
 
-<script setup name="User">
+<script setup>
+defineOptions({ name: 'User' })
 import TreePanel from "@/components/TreePanel"
 import ExcelImportDialog from "@/components/ExcelImportDialog"
 import UserViewDrawer from "./view"

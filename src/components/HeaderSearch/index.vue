@@ -77,7 +77,6 @@
 </template>
 
 <script setup>
-import Fuse from 'fuse.js'
 import { getNormalPath } from '@/utils/ruoyi'
 import { isHttp } from '@/utils/validate'
 import useSettingsStore from '@/store/modules/settings'
@@ -89,6 +88,7 @@ const searchPool = ref([])
 const activeIndex = ref(-1)
 const show = ref(false)
 const fuse = ref(undefined)
+const FuseClass = ref(undefined)
 const headerSearchSelectRef = ref(null)
 const router = useRouter()
 const theme = computed(() => useSettingsStore().theme)
@@ -137,7 +137,10 @@ function change(val) {
 }
 
 function initFuse(list) {
-  fuse.value = new Fuse(list, {
+  if (!FuseClass.value) {
+    return
+  }
+  fuse.value = new FuseClass.value(list, {
     shouldSort: true,
     threshold: 0.2,
     distance: 100,
@@ -189,7 +192,7 @@ function querySearch(query) {
     const pathMatches = searchPool.value.filter(item =>
       item.path.toLowerCase().includes(q)
     )
-    const fuseMatches = fuse.value.search(query).map(item => item.item)
+    const fuseMatches = fuse.value ? fuse.value.search(query).map(item => item.item) : []
     const merged = [...pathMatches]
     fuseMatches.forEach(item => {
       if (!merged.find(m => m.path === item.path)) {
@@ -236,8 +239,15 @@ function escapeRegExp(str) {
   return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
 
-onMounted(() => {
+onMounted(async () => {
+  const { default: Fuse } = await import('fuse.js')
+  FuseClass.value = Fuse
   searchPool.value = generateRoutes(routes.value)
+  initFuse(searchPool.value)
+})
+
+watch(routes, (value) => {
+  searchPool.value = generateRoutes(value)
 })
 
 watch(searchPool, (list) => {

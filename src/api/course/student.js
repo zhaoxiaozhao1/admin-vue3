@@ -15,6 +15,27 @@ export function getStudent(studentId) {
   })
 }
 
+export function listStudentLessons(studentId) {
+  return request({
+    url: '/edu/student/' + studentId + '/lessons',
+    method: 'get'
+  })
+}
+
+export function listStudentClasses(studentId) {
+  return request({
+    url: '/edu/student/' + studentId + '/classes',
+    method: 'get'
+  })
+}
+
+export function listStudentDevices(studentId) {
+  return request({
+    url: '/edu/student/' + studentId + '/devices',
+    method: 'get'
+  })
+}
+
 export function addStudent(data) {
   return request({
     url: '/edu/student',

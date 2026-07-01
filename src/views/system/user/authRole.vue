@@ -45,7 +45,8 @@
    </div>
 </template>
 
-<script setup name="AuthRole">
+<script setup>
+defineOptions({ name: 'AuthRole' })
 import { getAuthRole, updateAuthRole } from "@/api/system/user"
 
 const route = useRoute()

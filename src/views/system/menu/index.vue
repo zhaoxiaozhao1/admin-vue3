@@ -305,7 +305,8 @@
    </div>
 </template>
 
-<script setup name="Menu">
+<script setup>
+defineOptions({ name: 'Menu' })
 import { addMenu, delMenu, getMenu, listMenu, updateMenu, updateMenuSort } from "@/api/system/menu"
 import SvgIcon from "@/components/SvgIcon"
 import IconSelect from "@/components/IconSelect"

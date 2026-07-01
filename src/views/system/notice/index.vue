@@ -143,7 +143,7 @@
                </el-col>
                <el-col :span="24">
                   <el-form-item label="内容">
-                    <editor v-model="form.noticeContent" :min-height="192"/>
+                    <Editor v-model="form.noticeContent" :min-height="192"/>
                   </el-form-item>
                </el-col>
             </el-row>
@@ -160,10 +160,13 @@
    </div>
 </template>
 
-<script setup name="Notice">
+<script setup>
+defineOptions({ name: 'Notice' })
 import NoticeDetailView from "@/layout/components/HeaderNotice/DetailView"
 import ReadUsersDialog from "./ReadUsers"
 import { listNotice, getNotice, delNotice, addNotice, updateNotice } from "@/api/system/notice"
+
+const Editor = defineAsyncComponent(() => import('@/components/Editor'))
 
 const { proxy } = getCurrentInstance()
 const { sys_notice_status, sys_notice_type } = useDict("sys_notice_status", "sys_notice_type")

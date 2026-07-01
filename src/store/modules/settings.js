@@ -47,6 +47,9 @@ const useSettingsStore = defineStore(
       toggleTheme() {
         this.isDark = !this.isDark
         toggleDark()
+        if (this.isDark) {
+          import('element-plus/theme-chalk/dark/css-vars.css')
+        }
         nextTick(() => {
           handleThemeStyle(this.theme)
         })

@@ -45,7 +45,8 @@
   </el-dialog>
 </template>
 
-<script setup name="ReadUsers">
+<script setup>
+defineOptions({ name: 'ReadUsers' })
 import { Search } from "@element-plus/icons-vue"
 import { listNoticeReadUsers } from "@/api/system/notice"
 

@@ -152,7 +152,8 @@
    </div>
 </template>
 
-<script setup name="Operlog">
+<script setup>
+defineOptions({ name: 'Operlog' })
 import OperlogDetail from './detail'
 import { list, delOperlog, cleanOperlog } from "@/api/monitor/operlog"
 

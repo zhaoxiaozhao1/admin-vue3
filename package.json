@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "2.3.2",
+    "@vue/shared": "^3.5.26",
     "@vueup/vue-quill": "1.2.0",
     "@vueuse/core": "14.1.0",
     "axios": "1.13.2",
@@ -43,9 +44,9 @@
     "fast-glob": "3.3.3",
     "sass-embedded": "1.97.2",
     "unplugin-auto-import": "21.0.0",
-    "unplugin-vue-setup-extend-plus": "1.0.1",
+    "unplugin-vue-components": "^28.0.0",
     "vite": "8.1.0",
-    "vite-plugin-compression": "0.5.1",
+    "vite-plugin-compression2": "^2.2.1",
     "vite-plugin-svg-icons": "2.0.1"
   },
   "overrides": {

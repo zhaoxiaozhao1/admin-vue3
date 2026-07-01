@@ -164,7 +164,8 @@
    </div>
 </template>
 
-<script setup name="Config">
+<script setup>
+defineOptions({ name: 'Config' })
 import { listConfig, getConfig, delConfig, addConfig, updateConfig, refreshCache } from "@/api/system/config"
 
 const { proxy } = getCurrentInstance()

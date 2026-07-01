@@ -62,7 +62,8 @@
    </div>
 </template>
 
-<script setup name="Profile">
+<script setup>
+defineOptions({ name: 'Profile' })
 import userAvatar from "./userAvatar"
 import userInfo from "./userInfo"
 import resetPwd from "./resetPwd"
