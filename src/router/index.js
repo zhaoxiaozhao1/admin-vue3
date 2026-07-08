@@ -48,6 +48,11 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/web',
+    component: () => import('@/views/web/index.vue'),
+    hidden: true
+  },
+  {
     path: "/:pathMatch(.*)*",
     component: () => import('@/views/error/404'),
     hidden: true
